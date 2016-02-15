@@ -73,11 +73,13 @@ var BattleshipGame = function() {
 		return true; // if there has been no encounter of a boat that has not been destroyed, all boats have been destroyed
 	}
 
-	this.addBoat = function(x ,y ,length, rotation){
+	this.addBoat = function(x, y, type, rotation){
 		//control if valid input
-		_this.currentPlayer.addBoat(x ,y ,length, rotation);
+		_this.currentPlayer.addBoat(x, y, type, rotation);
 		_this.notifyObservers();
 	}
+
+	this.ships = 
 
 	this.player1 = new Player(1, gridSize);
 	this.player2 = new Player(2, gridSize);
@@ -85,8 +87,14 @@ var BattleshipGame = function() {
 
 
 	console.log("Game created");
+}
 
-	this.boatPrototypes = []
+var boatTypes = {
+	"Aircraft carrier": 5,
+	"Battleship": 4,
+	"Submarine": 3,
+	"Destroyer": 3,
+	"Patrol boat": 2
 }
 
 var Grid = function() {
@@ -111,8 +119,9 @@ var Player = function(playerNumber, gridSize) {
 	//console.log(this.grid);
 	//console.log(this.guesses[0][0] === undefined);
 
-	this.addBoat = function(x ,y , length, rotation) {
-		_this.boats.push(new Boat(length, rotation));
+	this.addBoat = function(x, y, type, rotation) {
+		var length = boatTypes[type];
+		_this.boats.push(new Boat(type, rotation));
 		console.log("add boat at: "+x +":"+y+":"+length+":"+rotation);
 
 		if (rotation == "h") {
@@ -129,9 +138,9 @@ var Player = function(playerNumber, gridSize) {
 	
 }
 
-var Boat = function(length, rotation) {
-	
-	this.length = length;
+var Boat = function(type, rotation) {
+	this.type = type;
+	this.length = boatTypes[type];
 	this.rotation = rotation;
 	this.hits = 0;
 	this.isDestroyed = false;

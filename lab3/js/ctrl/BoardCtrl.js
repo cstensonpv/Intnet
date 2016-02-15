@@ -19,7 +19,7 @@ var BoardCtrl = function (view, model) {
 				var y = parseInt(id[1]);
 
 				if(!model.gameStarted){
-					model.addBoat(x, y,2, "v");
+					model.addBoat(x, y, "Destroyer", "v");
 				}else{
 					model.guess(x, y);
 				}
