@@ -1,3 +1,4 @@
+"use strict";
 $(function() {
     //We instantiate our model
     var model = new BattleshipGame();
