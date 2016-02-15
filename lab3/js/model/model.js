@@ -1,5 +1,3 @@
-"use strict";
-
 var BattleshipGame = function() {
 	var _this = this;
 	this.observers = [];
