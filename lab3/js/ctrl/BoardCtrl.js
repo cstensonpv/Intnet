@@ -1,5 +1,20 @@
 var BoardCtrl = function (view, model) {
 	var _this = this;
+	this.selectedShip = null;
+
+	this.generateShipList = function() {
+		var list = document.createElement('ol')
+		for(key in boattypes){
+			var ship = document.createElement('li');
+			ship.appendChild(document.createTextNode(key + "(with length "+ boattypes[key].length+")"));
+			ship.className("ship");
+			ship.id(key);
+			list.appendChild(ship);
+					
+		}
+		view.ships.html(list);
+
+	}
 
 	this.update = function() {
 
@@ -55,9 +70,16 @@ var BoardCtrl = function (view, model) {
 
 	//console.log("Game: "+ model.gameStarted);
 
-	
+	this.generateShipList()
 	this.update();
 	
+
+	$(".ship" ).click(function() {
+		console.log(this);
+		//model.test(if hit);
+		this.selectedShip = this.id;
+		console.log(this.selectedShip);
+	});
 
 	//Add observer
 	model.addObserver(this);
