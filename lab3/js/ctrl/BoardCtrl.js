@@ -1,14 +1,21 @@
 var BoardCtrl = function(view, model) {
 	var _this = this;
 	this.selectedShip = null;
+	this.selectedRotation = "v";
 
 	this.generateShipList = function() {
+		view.ships.html("");
+
+		var boatsLeft = model.currentPlayer.notUsedBoatTypes();
+		if(!boatsLeft[this.selectedShip]){
+			this.selectedShip = null;
+		}
 		var list = document.createElement('ol')
-		for(key in boatTypes){
+		for(key in boatsLeft){
 			var ship = document.createElement('li');
-			ship.appendChild(document.createTextNode(key + "(with length "+ boatTypes[key]+")"));
+			ship.appendChild(document.createTextNode(key + "(with length "+ boatsLeft[key]+")"));
 			ship.className = "ship";
-			ship.id = key;
+			ship.id = key.replace(" ","_");
 			list.appendChild(ship);
 					
 		}
@@ -78,6 +85,8 @@ var BoardCtrl = function(view, model) {
 	}
 
 	this.update = function() {
+		this.generateShipList();
+
 		if (!model.gameStarted){
 			this.printArray(model.currentPlayer.grid);
 			view.scoreTable.hide();
@@ -97,7 +106,7 @@ var BoardCtrl = function(view, model) {
 				var y = parseInt(id[1]);
 
 				if(!model.gameStarted){
-					model.addBoat(x, y, "Destroyer", "v");
+					model.addBoat(x, y, _this.selectedShip, _this.selectedRotation);
 				}else{
 					model.guess(x, y);
 				}
@@ -146,29 +155,37 @@ var BoardCtrl = function(view, model) {
 		}
 
 		view.currentPlayer.html("Player " + model.currentPlayer.playerNumber);
-	};
+
+		$(".ship" ).click(function() {
+			if(_this.selectedShip !== null){
+				$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
+			}
+			_this.selectedShip = this.id.replace("_", " ");
+			console.log(_this.selectedShip);
+
+			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
+			
+		});
+	}
 
 	this.dbUnbind = function() {
 		view.doneButton.unbind().click(function() {});
 	}
 
-
-	//initialize from the start
-
-	//console.log("Game: "+ model.gameStarted);
-
-	this.generateShipList();
 	this.update();
-	
 
-	$(".ship" ).click(function() {
-		console.log(this);
-		//model.test(if hit);
-		this.selectedShip = this.id;
-		console.log(this.selectedShip);
+	view.rotation.click( function() {
+		if(_this.selectedRotation === "v"){
+			_this.selectedRotation = "h";
+			$("#rotation").html("Horizontal");
+		}else{
+			_this.selectedRotation = "v";
+			$("#rotation").html("Vertical");
+		}	
+		console.log(_this.selectedRotation);
+
 	});
 
-	
 
 	//Add observer
 	model.addObserver(this);
