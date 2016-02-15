@@ -23,7 +23,7 @@ var BoardView = function (container) {
             var row = document.createElement('div')//.className = "row";
             row.className = "row";
             for(k = 0; k < playerGuesses[i].length; k++){
-                if(playerGuesses[i][k] == "Unknown"){
+                if(playerGuesses[i][k] == undefined){
                     var col = document.createElement('div');
                     col.className = "sea";
                     col.id = i+":"+k;
