@@ -1,4 +1,4 @@
-var BoardCtrl = function (view, model) {
+var BoardCtrl = function(view, model) {
 	var _this = this;
 	this.selectedShip = null;
 
@@ -16,13 +16,46 @@ var BoardCtrl = function (view, model) {
 
 	}
 
-	this.update = function() {
+	this.printArray = function(playerGuesses) {  
+		view.board.html("");
+		var clickable = model.guessMade ? "" : " clickable";
 
+		for (y = 0; y < playerGuesses.length; y++) {
+			var row = document.createElement('div')//.className = "row";
+			row.className = "row";
+
+			for (x = 0; x < playerGuesses[y].length; x++){
+				if (playerGuesses[y][x] == undefined){
+					var col = document.createElement('div');
+					col.className = "sea" + clickable;
+					col.id = x+":"+y;
+				} else if (playerGuesses[y][x] === "hit"){
+					var col = document.createElement('div');
+					col.className = "hit" + clickable;
+					col.id = x+":"+y;
+				} else if (playerGuesses[y][x] === "empty"){
+					var col = document.createElement('div');
+					col.className = "empty" + clickable;
+					col.id = x+":"+y;
+				} else {
+					var col = document.createElement('div');
+					col.className = "boat" + clickable;
+					col.id = x+":"+y; 
+				}
+				//col.appendChild(document.createTextNode(x+":"+y));
+				row.appendChild(col);   //className = "sea"+i+":"+k;  
+			}
+			
+			view.board.append(row);
+		}
+	}
+
+	this.update = function() {
 		if (!model.gameStarted){
-			view.printArray(model.currentPlayer.grid);
+			this.printArray(model.currentPlayer.grid);
 		} else {
 			//console.log(model.player1);
-			view.printArray(model.currentPlayer.guesses);
+			this.printArray(model.currentPlayer.guesses);
 		}
 
 		if (!model.guessMade) {
@@ -70,7 +103,7 @@ var BoardCtrl = function (view, model) {
 
 	//console.log("Game: "+ model.gameStarted);
 
-	this.generateShipList()
+	this.generateShipList();
 	this.update();
 	
 
@@ -80,6 +113,8 @@ var BoardCtrl = function (view, model) {
 		this.selectedShip = this.id;
 		console.log(this.selectedShip);
 	});
+
+	
 
 	//Add observer
 	model.addObserver(this);
