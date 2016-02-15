@@ -1,6 +1,7 @@
 var BattleshipGame = function() {
 	var _this = this;
 	this.observers = [];
+	this.gameStarted = false;
 
 	function notifyObservers() {
 		for (i in this.observers) {
@@ -46,6 +47,7 @@ var Grid = function() {
 }
 
 var Player = function(playerNumber) {
+	var _this = this;
 	this.playerNumber = playerNumber;
 	this.boats = [];
 	this.grid = [];
@@ -63,15 +65,15 @@ var Player = function(playerNumber) {
 	//console.log(this.guesses[0][0] === undefined);
 
 	this.addBoat = function(length, rotation, x, y) {
-		this.boats.push(new Boat(length, rotation));
+		_this.boats.push(new Boat(length, rotation));
 
 		if (length === "h") {
 			for (var i = x; i <= length; i ++) {
-				this.grid[i][y] = this.boats[this.boats.length - 1];
+				_this.grid[i][y] = _this.boats[_this.boats.length - 1];
 			}
 		} else if (rotation === "v") {
 			for (var j = y; j <= length; j ++) {
-				this.grid[x][j] = this.boats[this.boats.length - 1];
+				_this.grid[x][j] = _this.boats[_this.boats.length - 1];
 			}
 		}
 
@@ -82,6 +84,7 @@ var Player = function(playerNumber) {
 }
 
 var Boat = function(length, rotation) {
+	
 	this.length = length;
 	this.rotation = rotation;
 	this.hits = 0;
