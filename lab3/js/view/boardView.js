@@ -10,7 +10,7 @@ var BoardView = function (container) {
     this.printArray = function(playerGuesses){  
         
 
-        console.log("printArray view");
+        //console.log("printArray view" + playerGuesses.length);
 
 
         this.board.html("");

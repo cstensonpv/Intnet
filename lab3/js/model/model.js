@@ -33,11 +33,8 @@ var BattleshipGame = function() {
 
 	this.player1 = new Player(1);
 	this.player2 = new Player(2);
-	this.currentPlayer = this.Player1;
+	this.currentPlayer = this.player1;
 
-	this.currentPlayer = function() {
-		return _this.currentPlayer.playerNumber;
-	}
 
 	console.log("Game created");
 
@@ -62,8 +59,8 @@ var Player = function(playerNumber) {
 		this.guesses.push(new Array(9));
 	}
 
-	console.log(this.grid);
-	console.log(this.guesses[0][0] === undefined);
+	//console.log(this.grid);
+	//console.log(this.guesses[0][0] === undefined);
 
 	this.addBoat = function(length, rotation, x, y) {
 		this.boats.push(new Boat(length, rotation));
