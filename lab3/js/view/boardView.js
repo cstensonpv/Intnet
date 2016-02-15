@@ -3,13 +3,13 @@ var boardView = function (container, model) {
      
     // Get all the relevant elements of the view (ones that show data
     // and/or ones that responed to interaction)
-    console.log(container);
+    //console.log(container);
     this.board = container
      
     this.doView = function(){  
  
         //function print_board(board){
-        document.getElementById('board').innerHTML = "";
+        //document.getElementById('board').innerHTML = "";
 
         for (i = 0; i < board.length; i++) {
             var row = document.createElement('div')//.className = "row";
