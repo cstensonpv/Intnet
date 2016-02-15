@@ -12,16 +12,17 @@ var BoardCtrl = function (view, model) {
 
 			model.guess(row, col);
 
-			model.player1[row][col] = "Hit";//change to "Hit"
+			model.player1[row][col] = "hit";//change to "Hit"
 			console.log(model.player1);
 
-			view.update(model.player1);
+			view.printArray(model.player1);
 		 	this.update();
 
 		});
 	};
 
 	//initialize onclick
+	view.printArray(model.player1);
 	this.update();
 
 	//Add observer
