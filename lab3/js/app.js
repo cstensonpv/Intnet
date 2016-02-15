@@ -3,9 +3,8 @@ $(function() {
     var model = new BattleshipGame();
      
     //And create the needed controllers and views
-    console.log($("#board"));
-    var boardView = new boardView($("#board"), model);
-    var boardCtrl = new boardCtrl(exampleboardViewView, model);
+    var boardView = new BoardView($("#game"), model);
+    var boardCtrl = new BoardCtrl(boardView, model);
 
     console.log("app js körd!");
 });
