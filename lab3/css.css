@@ -26,3 +26,12 @@
 	float: left;
 
 }
+.boat{
+	padding-top:7%;
+	width:7%;
+	border-radius: 10px;
+	border-color: grey;
+	background-color: green;
+	float: left;
+
+}
