@@ -28,7 +28,6 @@ var BattleshipGame = function() {
 
 	console.log("Game created");
 
-<<<<<<< HEAD
 	this.player1 = [
 	["Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown"],
 	["Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown"],
@@ -40,7 +39,6 @@ var BattleshipGame = function() {
 	["Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown"],
 	["Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown","Unknown", "Unknown", "Unknown"],
 		];
-=======
 	this.boatPrototypes = []
 }
 
@@ -67,5 +65,4 @@ var Player = function(playerNumber) {
 
 var Boat = function() {
 	this.length = 1; // all lengths are 1 until the bonus assignment
->>>>>>> 71270d29aecfa2370662ff3562669bca9c616942
 }
