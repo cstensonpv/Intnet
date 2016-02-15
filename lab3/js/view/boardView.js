@@ -9,6 +9,7 @@ var BoardView = function (container) {
 	this.board = container.find("#board");
 	this.doneButton = container.find("#done");
 	this.ships = container.find("#ships");
+	this.rotation = container.find("#rotation");
 
 	this.printArray = function(playerGuesses) {  
 		

@@ -1,6 +1,19 @@
 var BoardCtrl = function (view, model) {
 	var _this = this;
 	this.selectedShip = null;
+	this.selectedRotation = null;
+
+	view.rotation.click( function() {
+		if(_this.selectedRotation === "v"){
+			_this.selectedRotation = "h";
+			$("#rotation").html("Horizontal");
+		}else{
+			_this.selectedRotation = "v";
+			$("#rotation").html("Vertical");
+		}	
+		console.log(_this.selectedRotation);
+
+	});
 
 	this.generateShipList = function() {
 		var list = document.createElement('ol')
@@ -8,7 +21,7 @@ var BoardCtrl = function (view, model) {
 			var ship = document.createElement('li');
 			ship.appendChild(document.createTextNode(key + "(with length "+ boatTypes[key]+")"));
 			ship.className = "ship";
-			ship.id = key;
+			ship.id = key.replace(" ","_");
 			list.appendChild(ship);
 					
 		}
@@ -75,10 +88,14 @@ var BoardCtrl = function (view, model) {
 	
 
 	$(".ship" ).click(function() {
-		console.log(this);
-		//model.test(if hit);
-		this.selectedShip = this.id;
-		console.log(this.selectedShip);
+		if(_this.selectedShip !== null){
+			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
+		}
+		_this.selectedShip = this.id.replace("_", " ");
+		console.log(_this.selectedShip);
+
+		$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
+		
 	});
 
 	//Add observer
