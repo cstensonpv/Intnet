@@ -4,11 +4,11 @@ var BoardCtrl = function (view, model) {
 
 	this.generateShipList = function() {
 		var list = document.createElement('ol')
-		for(key in boattypes){
+		for(key in boatTypes){
 			var ship = document.createElement('li');
-			ship.appendChild(document.createTextNode(key + "(with length "+ boattypes[key].length+")"));
-			ship.className("ship");
-			ship.id(key);
+			ship.appendChild(document.createTextNode(key + "(with length "+ boatTypes[key]+")"));
+			ship.className = "ship";
+			ship.id = key;
 			list.appendChild(ship);
 					
 		}
