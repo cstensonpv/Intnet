@@ -79,7 +79,6 @@ var BattleshipGame = function() {
 		_this.notifyObservers();
 	}
 
-	this.ships = 
 
 	this.player1 = new Player(1, gridSize);
 	this.player2 = new Player(2, gridSize);
@@ -133,6 +132,22 @@ var Player = function(playerNumber, gridSize) {
 				_this.grid[i][x] = _this.boats[_this.boats.length - 1];
 			}	
 		}
+	}
+
+	this.notUsedBoatTypes = function() {
+		var assocArray = {};
+		for(key in boatTypes){
+			var used = false;
+			for(boat = 0; boat < this.boats.length; boat++){
+				if(this.boats[boat].type == key){
+					used = true;
+				}
+			}
+			if(!used){
+				assocArray[key] = boatTypes[key];
+			}
+		}
+		return assocArray
 	}
 
 	
