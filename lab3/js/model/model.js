@@ -59,6 +59,7 @@ var BattleshipGame = function() {
 			this.currentPlayer.guesses[y][x] = "empty";
 		}
 
+		_this.currentPlayer.numGuesses ++;
 		_this.guessMade = true;
 		_this.notifyObservers();
 	}
@@ -107,6 +108,7 @@ var Player = function(playerNumber, gridSize) {
 	this.boats = [];
 	this.grid = [];
 	this.guesses = [];
+	this.numGuesses = 0;
 
 	for (var i = 0; i < gridSize; i ++) {
 		this.grid.push(new Array(gridSize));
@@ -135,7 +137,15 @@ var Player = function(playerNumber, gridSize) {
 		}
 	}
 
-	
+	this.noSunkBoats = function() {
+		var num = 0;
+
+		for (var i in this.boats) {
+			if (this.boats[i].isDestroyed) num ++;
+		}
+
+		return num;
+	}
 }
 
 var Boat = function(type, rotation) {

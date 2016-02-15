@@ -50,12 +50,42 @@ var BoardCtrl = function(view, model) {
 		}
 	}
 
+	this.printScores = function() {
+		view.scoreTable.html("");
+
+		console.log("Print scores");
+		// view.scoreTable.append("<tr><td>asdf</td></tr>");
+		var scores = ""
+
+		scores += '<tr><th>Player</th><th>Ships</th><th>Sunk ships</th><th>Shots</th></tr>';
+
+		scores += '<tr>';
+		scores += '<td>' + model.currentPlayer.playerNumber + '</td>';
+		scores += '<td>' + model.currentPlayer.boats.length + '</td>';
+		scores += '<td>' + model.currentPlayer.noSunkBoats() + '</td>';
+		scores += '<td>' + model.currentPlayer.numGuesses + '</td>';
+		scores += '</tr>';
+
+		scores += '<tr>';
+		scores += '<td>' + model.otherPlayer().playerNumber + '</td>';
+		scores += '<td>' + model.otherPlayer().boats.length + '</td>';
+		scores += '<td>' + model.otherPlayer().noSunkBoats() + '</td>';
+		scores += '<td>' + model.otherPlayer().numGuesses + '</td>';
+		scores += '</tr>';
+
+		view.scoreTable.append(scores);
+		// view.scoreTable.append(document.createElement('tr').appendChild(document.createTextNode("test")));
+	}
+
 	this.update = function() {
 		if (!model.gameStarted){
 			this.printArray(model.currentPlayer.grid);
+			view.scoreTable.hide();
 		} else {
 			//console.log(model.player1);
 			this.printArray(model.currentPlayer.guesses);
+			view.scoreTable.show();
+			this.printScores();
 		}
 
 		if (!model.guessMade) {
@@ -73,30 +103,54 @@ var BoardCtrl = function(view, model) {
 				}
 			});
 		}
+
 		if (model.winner !== null) {
 			alert("You have won!");
 		}
 
-		view.doneButton.click( function() {
-			console.log("doneclick)");
-			//console.log(model.currentPlayer.boats.length);
-			if (!model.gameStarted && model.player1.boats.length >= 1 && model.player2.boats.length >= 1){
+		if (!model.gameStarted && model.player1.boats.length >= 1 && model.player2.boats.length >= 1){
+			// If all players have finished placing their boats
+			view.doneButton.show();
+			view.doneButton.click(function() {
 				model.startGame();
 				model.switchPlayer();
-			} else if (!model.gameStarted && (model.currentPlayer === model.player1) && model.currentPlayer.boats.length >= 1) {
+				_this.dbUnbind();
+			});
+			view.doneButton.html("Done – Start game");
+		} else if (!model.gameStarted && (model.currentPlayer === model.player1) && model.currentPlayer.boats.length >= 1) {
+			// If the first player has finished placing their boats
+			view.doneButton.show();
+			view.doneButton.click(function() {
 				model.switchPlayer();
-			} else if (model.gameStarted && (model.winner === null)) {
+				_this.dbUnbind();
+			});
+			view.doneButton.html("Done – Let player " + model.otherPlayer().playerNumber + " place boats");
+		} else if (model.gameStarted && (model.winner === null)) {
+			// If this is a normal turn
+			view.doneButton.show();
+			view.doneButton.click(function() {
 				model.switchPlayer();
-			} else if (model.gameStarted && (model.winner !== null)) {
+				_this.dbUnbind();
+			});
+			view.doneButton.html("Done – Give the turn to player " + model.otherPlayer().playerNumber);
+		} else if (model.gameStarted && (model.winner !== null)) {
+			// If the game is won
+			view.doneButton.show();
+			view.doneButton.click(function() {
 				location.reload();
-			}
+				_this.dbUnbind();
+			});
+			view.doneButton.html("Reset game");
+		} else {
+			view.doneButton.hide();
+		}
 
-			view.doneButton.unbind().click(function() { console.log("unbind")});
-
-		});
-
-		view.currentPlayer.html("Player "+model.currentPlayer.playerNumber);
+		view.currentPlayer.html("Player " + model.currentPlayer.playerNumber);
 	};
+
+	this.dbUnbind = function() {
+		view.doneButton.unbind().click(function() {});
+	}
 
 
 	//initialize from the start

@@ -9,5 +9,6 @@ var BoardView = function(container) {
 	this.board = container.find("#board");
 	this.doneButton = container.find("#done");
 	this.ships = container.find("#ships");
+	this.scoreTable = container.find("#scoretable");
 	//this.printArray(); //runs in inatilatzion phase 
  }
