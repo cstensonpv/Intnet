@@ -87,16 +87,17 @@ var BoardCtrl = function(view, model) {
 	this.update = function() {
 		this.generateShipList();
 
+		// Print setup grid or game grid
 		if (!model.gameStarted){
 			this.printArray(model.currentPlayer.grid);
 			view.scoreTable.hide();
 		} else {
-			//console.log(model.player1);
 			this.printArray(model.currentPlayer.guesses);
 			view.scoreTable.show();
 			this.printScores();
 		}
 
+		// Sea buttons clickable (only one time, for one guess)
 		if (!model.guessMade) {
 			$(".sea" ).click(function() {
 				//console.log(this.id);
@@ -106,17 +107,21 @@ var BoardCtrl = function(view, model) {
 				var y = parseInt(id[1]);
 
 				if (!model.gameStarted) {
-					model.addBoat(x, y, _this.selectedShip, _this.selectedRotation);
+					if (_this.selectedShip !== null) {
+						model.addBoat(x, y, _this.selectedShip, _this.selectedRotation);
+					}
 				} else {
 					model.guess(x, y);
 				}
 			});
 		}
 
+		// Alerts
 		if (model.winner !== null) {
 			alert("You have won!");
 		}
 
+		// Logic for the Done button
 		if (!model.gameStarted && model.player1.boats.length >= 1 && model.player2.boats.length >= 1){
 			// If all players have finished placing their boats
 			view.doneButton.show();
@@ -154,8 +159,10 @@ var BoardCtrl = function(view, model) {
 			view.doneButton.hide();
 		}
 
+		// Player numbeer
 		view.currentPlayer.html("Player " + model.currentPlayer.playerNumber);
 
+		// Ship selection during setup
 		$(".ship" ).click(function() {
 			if(_this.selectedShip !== null){
 				$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
@@ -169,6 +176,7 @@ var BoardCtrl = function(view, model) {
 	}
 
 	this.dbUnbind = function() {
+		// Remove the Done button's functionality immediately after it's clicked, to prevent mysterious multiple-reaction
 		view.doneButton.unbind().click(function() {});
 	}
 
