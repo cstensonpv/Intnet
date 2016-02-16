@@ -13,7 +13,7 @@ var BoardCtrl = function(view, model) {
 		var list = document.createElement('ol')
 		for(key in boatsLeft){
 			var ship = document.createElement('li');
-			ship.appendChild(document.createTextNode(key + "(with length "+ boatsLeft[key]+")"));
+			ship.appendChild(document.createTextNode(key + " ("+ boatsLeft[key]+" units)"));
 			ship.className = "ship";
 			ship.id = key.replace(" ","_");
 			list.appendChild(ship);
@@ -173,6 +173,15 @@ var BoardCtrl = function(view, model) {
 			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
 			
 		});
+
+		if (this.selectedRotation === "h") {
+			view.rotation_h.addClass("underline");
+			view.rotation_v.removeClass("underline");
+		} else if (this.selectedRotation === "v") {
+			view.rotation_v.addClass("underline");
+			view.rotation_h.removeClass("underline");
+		}
+
 	}
 
 	this.dbUnbind = function() {
@@ -182,17 +191,15 @@ var BoardCtrl = function(view, model) {
 
 	this.update();
 
-	view.rotation.click( function() {
-		if(_this.selectedRotation === "v"){
-			_this.selectedRotation = "h";
-			$("#rotation").html("Horizontal");
-		}else{
-			_this.selectedRotation = "v";
-			$("#rotation").html("Vertical");
-		}	
-		console.log(_this.selectedRotation);
-
+	view.rotation_v.click(function() {
+		_this.selectedRotation = "v";
+		_this.update();
 	});
+
+	view.rotation_h.click(function() {
+		_this.selectedRotation = "h";
+		_this.update();
+	})
 
 
 	//Add observer
