@@ -6,7 +6,7 @@
 	 background-color: #477F7E;
 	 float: left;
 }
-.sea:hover{
+.clickable:hover{
 	background-color: #8EFFFB;
 }
 .hit{
