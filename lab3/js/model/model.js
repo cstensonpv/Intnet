@@ -80,6 +80,12 @@ var BattleshipGame = function() {
 		_this.notifyObservers();
 	}
 
+	this.removeBoat = function(x, y){
+		//control if valid input
+		_this.currentPlayer.removeBoat(x, y);
+		_this.notifyObservers();
+	}
+
 
 	this.player1 = new Player(1, gridSize);
 	this.player2 = new Player(2, gridSize);
@@ -134,6 +140,30 @@ var Player = function(playerNumber, gridSize) {
 				_this.grid[i][x] = _this.boats[_this.boats.length - 1];
 			}	
 		}
+	}
+
+	this.removeBoat = function(x, y) {
+		var boat = this.grid[y][x];
+		console.log("Player remove boat: "+ x +": "+y);
+		console.log(boat);
+		_this.boats.splice(_this.boats.indexOf(boat),1);
+		console.log(_this.boats);
+
+		if (boat.rotation == "h") {
+			for (i = Math.max(x-boat.length, 0); i < Math.min(x + boat.length,8); i++) {
+				_this.grid[y][i] = undefined;
+			}
+		} else if (boat.rotation === "v") {
+			console.log(Math.max(y -boat.length, 0) + ": "+ Math.min(y + boat.length, 8));
+			for (i = Math.max(y-boat.length, 0); i < Math.min(y + boat.length, 8); i++) {
+				_this.grid[i][x] = undefined;
+				console.log("delete :"+ i);
+			}	
+		}
+
+
+
+
 	}
 
 	this.noSunkBoats = function() {

@@ -21,6 +21,13 @@ var BoardCtrl = function(view, model) {
 		}
 		view.ships.html(list);
 
+		//automark the first element
+		if(Object.keys(boatsLeft)[0]){
+			this.markSelectedShip(Object.keys(boatsLeft)[0].replace(" ","_"));
+		}
+
+		
+
 	}
 
 	this.printArray = function(playerGuesses) {  
@@ -45,6 +52,7 @@ var BoardCtrl = function(view, model) {
 					col.className = "empty" + clickable;
 					col.id = x+":"+y;
 				} else {
+					//console.log(playerGuesses[y][x]);
 					var col = document.createElement('div');
 					col.className = "boat" + clickable;
 					col.id = x+":"+y; 
@@ -95,6 +103,7 @@ var BoardCtrl = function(view, model) {
 			this.printArray(model.currentPlayer.guesses);
 			view.scoreTable.show();
 			this.printScores();
+			view.rotation.hide();
 		}
 
 		if (!model.guessMade) {
@@ -157,15 +166,29 @@ var BoardCtrl = function(view, model) {
 		view.currentPlayer.html("Player " + model.currentPlayer.playerNumber);
 
 		$(".ship" ).click(function() {
-			if(_this.selectedShip !== null){
-				$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
-			}
-			_this.selectedShip = this.id.replace("_", " ");
-			console.log(_this.selectedShip);
-
-			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
+			_this.markSelectedShip(this.id);
 			
 		});
+		$(".boat" ).click(function() {
+
+			var id = this.id.split(":")
+			var x = parseInt(id[0]);
+			var y = parseInt(id[1]);
+
+			console.log("shoud remove boat");
+			model.removeBoat(x, y);
+			
+		});
+	}
+
+	this.markSelectedShip = function (id) {
+		if(_this.selectedShip !== null){
+			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
+		}
+		_this.selectedShip = id.replace("_", " ");
+
+		$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
+
 	}
 
 	this.dbUnbind = function() {
@@ -177,10 +200,10 @@ var BoardCtrl = function(view, model) {
 	view.rotation.click( function() {
 		if(_this.selectedRotation === "v"){
 			_this.selectedRotation = "h";
-			$("#rotation").html("Horizontal");
+			$("#rotation").html("Rotation: Horizontal");
 		}else{
 			_this.selectedRotation = "v";
-			$("#rotation").html("Vertical");
+			$("#rotation").html("Rotation: Vertical");
 		}	
 		console.log(_this.selectedRotation);
 
