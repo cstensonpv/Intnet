@@ -126,7 +126,7 @@ var BoardCtrl = function(view, model) {
 		}
 
 		// Logic for the Done button
-		if (!model.gameStarted && model.player1.boats.length >= 1 && model.player2.boats.length >= 1){
+		if (!model.gameStarted && model.player1.boats.length >= 5 && model.player2.boats.length >= 5){
 			// If all players have finished placing their boats
 			view.doneButton.show();
 			view.doneButton.click(function() {
@@ -135,7 +135,7 @@ var BoardCtrl = function(view, model) {
 				_this.dbUnbind();
 			});
 			view.doneButton.html("Done – Start game");
-		} else if (!model.gameStarted && (model.currentPlayer === model.player1) && model.currentPlayer.boats.length >= 1) {
+		} else if (!model.gameStarted && (model.currentPlayer === model.player1) && model.currentPlayer.boats.length >= 5) {
 			// If the first player has finished placing their boats
 			view.doneButton.show();
 			view.doneButton.click(function() {
@@ -143,7 +143,7 @@ var BoardCtrl = function(view, model) {
 				_this.dbUnbind();
 			});
 			view.doneButton.html("Done – Let player " + model.otherPlayer().playerNumber + " place boats");
-		} else if (model.gameStarted && (model.winner === null)) {
+		} else if (model.gameStarted && (model.winner === null) && model.guessMade) {
 			// If this is a normal turn
 			view.doneButton.show();
 			view.doneButton.click(function() {
