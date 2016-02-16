@@ -5,6 +5,7 @@ var BattleshipGame = function() {
 	this.gameStarted = false;
 	this.guessMade = false;
 	this.winner = null;
+	this.message = null;
 
 	this.notifyObservers = function() {
 		for (i in this.observers) {
@@ -47,13 +48,17 @@ var BattleshipGame = function() {
 	}
 
 	this.guess = function(x, y) {
+		this.message = null;
+
 		if (this.otherPlayer().grid[y][x] !== undefined) {
 			this.otherPlayer().grid[y][x].hit();
 			this.currentPlayer.guesses[y][x] = "hit";
 
 			if (this.checkIfWinner()) {
 				this.winner = this.currentPlayer;
-				console.log("You have won");
+				this.message = "Player " + this.currentPlayer.playerNumber + ", you have won!";
+			} else if (this.otherPlayer().grid[y][x].isDestroyed) {
+				this.message = "Player " + this.currentPlayer.playerNumber + ", you have sunk player " + this.otherPlayer().playerNumber + "'s " + this.otherPlayer().grid[y][x].type;
 			}
 		} else {
 			this.currentPlayer.guesses[y][x] = "empty";
@@ -75,27 +80,30 @@ var BattleshipGame = function() {
 	}
 
 	this.addBoat = function(x, y, type, rotation){
-		if (!this.checkOverlap(x, y, boatTypes[type], rotation, _this.currentPlayer.grid)) {
+		if (this.validPlacement(x, y, boatTypes[type], rotation, _this.currentPlayer.grid)) {
 			_this.currentPlayer.addBoat(x, y, type, rotation);
 			_this.notifyObservers();
 		}
 	}
 
-	this.checkOverlap = function(x, y, length, rotation, grid) {
-		// Returns true if the inputted data overlaps something in the inputted grid
+	this.validPlacement = function(x, y, length, rotation, grid) {
+		// Returns true if the specified placement doesn't overlap or fall outside of the specified grid
 		if (rotation === "h") {
+			if (x + length > gridSize) return false;
+
 			for (var i = x; i < x+length; i ++) {
-				if (grid[y][i] !== undefined) return true;
+				if (grid[y][i] !== undefined) return false;
 			}
 		} else if (rotation === "v") {
+			if (y + length > gridSize) return false;
+
 			for (var j = y; j < y+length; j ++) {
-				if (grid[j][x] !== undefined) return true;
+				if (grid[j][x] !== undefined) return false;
 			}
 		}
 
-		return false;
+		return true;
 	}
-
 
 	this.player1 = new Player(1, gridSize);
 	this.player2 = new Player(2, gridSize);

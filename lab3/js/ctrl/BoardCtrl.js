@@ -116,11 +116,6 @@ var BoardCtrl = function(view, model) {
 			});
 		}
 
-		// Alerts
-		if (model.winner !== null) {
-			alert("You have won!");
-		}
-
 		// Logic for the Done button
 		if (!model.gameStarted && model.player1.boats.length >= 1 && model.player2.boats.length >= 1){
 			// If all players have finished placing their boats
@@ -180,6 +175,10 @@ var BoardCtrl = function(view, model) {
 		} else if (this.selectedRotation === "v") {
 			view.rotation_v.addClass("underline");
 			view.rotation_h.removeClass("underline");
+		}
+
+		if (model.message !== null) {
+			view.message.html(model.message);
 		}
 
 	}
