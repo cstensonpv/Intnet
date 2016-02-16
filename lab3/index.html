@@ -17,26 +17,27 @@
 	<div class="col-md-10 col-md-offset-1" id="game">
 		<h1>Battleship</h1>
 		<h3>Turn: <span id="currentPlayer"></span></h3>
-
-		<button class="btn btn-primary" id="done">Done</button>
+		<h4 id="message">
+		</h4>
 		<div id="side" class="col-md-4">
+			<div id="scores">
+
+				<table id="scoretable">
+				</table>
+
+			</div>
 			<div id="rotation">
 				Rotation: <span id="rotation_v" class="rotation">Vertical</span> | <span id="rotation_h" class="rotation">Horizontal</span>
 			</div>
 			<div id="ships">
 			</div> 
+			<button class="btn btn-primary" id="done">Done</button>
 		</div>
 		<div id="board" class="col-md-8 row">
 		</div>
 
-		<div id="scores">
-
-			<table id="scoretable">
-			</table>
-
-		</div>
-		<h3 id="message">
-		</h3>
+		
+		
 	</div>
 
 
