@@ -21,6 +21,13 @@ var BoardCtrl = function(view, model) {
 		}
 		view.ships.html(list);
 
+		//automark the first element
+		if(Object.keys(boatsLeft)[0]){
+			this.markSelectedShip(Object.keys(boatsLeft)[0].replace(" ","_"));
+		}
+
+		
+
 	}
 
 	this.printArray = function(playerGuesses) {  
@@ -45,6 +52,7 @@ var BoardCtrl = function(view, model) {
 					col.className = "empty" + clickable;
 					col.id = x+":"+y;
 				} else {
+					//console.log(playerGuesses[y][x]);
 					var col = document.createElement('div');
 					col.className = "boat" + clickable;
 					col.id = x+":"+y; 
@@ -95,6 +103,7 @@ var BoardCtrl = function(view, model) {
 			this.printArray(model.currentPlayer.guesses);
 			view.scoreTable.show();
 			this.printScores();
+			view.rotation.hide();
 		}
 
 		// Sea buttons clickable (only one time, for one guess)
@@ -159,13 +168,17 @@ var BoardCtrl = function(view, model) {
 
 		// Ship selection during setup
 		$(".ship" ).click(function() {
-			if(_this.selectedShip !== null){
-				$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
-			}
-			_this.selectedShip = this.id.replace("_", " ");
-			console.log(_this.selectedShip);
+			_this.markSelectedShip(this.id);
+			
+		});
+		$(".boat" ).click(function() {
 
-			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
+			var id = this.id.split(":")
+			var x = parseInt(id[0]);
+			var y = parseInt(id[1]);
+
+			console.log("shoud remove boat");
+			model.removeBoat(x, y);
 			
 		});
 
@@ -180,6 +193,16 @@ var BoardCtrl = function(view, model) {
 		if (model.message !== null) {
 			view.message.html(model.message);
 		}
+
+	}
+
+	this.markSelectedShip = function (id) {
+		if(_this.selectedShip !== null){
+			$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "white");
+		}
+		_this.selectedShip = id.replace("_", " ");
+
+		$("#"+_this.selectedShip.replace(" ","_")).css("background-color", "red");
 
 	}
 

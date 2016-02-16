@@ -8,4 +8,5 @@ var BoardView = function(container) {
 	this.rotation_v = container.find("#rotation_v");
 	this.rotation_h = container.find("#rotation_h");
 	this.message = container.find("#message");
+	this.rotation = container.find("#rotation");
  }
