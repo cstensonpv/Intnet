@@ -105,9 +105,9 @@ var BoardCtrl = function(view, model) {
 				var x = parseInt(id[0]);
 				var y = parseInt(id[1]);
 
-				if(!model.gameStarted){
+				if (!model.gameStarted) {
 					model.addBoat(x, y, _this.selectedShip, _this.selectedRotation);
-				}else{
+				} else {
 					model.guess(x, y);
 				}
 			});
