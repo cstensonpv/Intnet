@@ -174,12 +174,12 @@ var Player = function(playerNumber, gridSize) {
 		console.log(_this.boats);
 
 		if (boat.rotation == "h") {
-			for (i = Math.max(x-boat.length, 0); i < Math.min(x + boat.length,8); i++) {
+			for (i = Math.max(x-boat.length, 0); i < Math.min(x + boat.length, gridSize); i++) {
 				_this.grid[y][i] = undefined;
 			}
 		} else if (boat.rotation === "v") {
-			console.log(Math.max(y -boat.length, 0) + ": "+ Math.min(y + boat.length, 8));
-			for (i = Math.max(y-boat.length, 0); i < Math.min(y + boat.length, 8); i++) {
+			console.log(Math.max(y -boat.length, 0) + ": "+ Math.min(y + boat.length, gridSize));
+			for (i = Math.max(y-boat.length, 0); i < Math.min(y + boat.length, gridSize); i++) {
 				_this.grid[i][x] = undefined;
 				console.log("delete :"+ i);
 			}	
