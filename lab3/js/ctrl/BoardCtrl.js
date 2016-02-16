@@ -13,7 +13,7 @@ var BoardCtrl = function(view, model) {
 		var list = document.createElement('ol')
 		for(key in boatsLeft){
 			var ship = document.createElement('li');
-			ship.appendChild(document.createTextNode(key + "(with length "+ boatsLeft[key]+")"));
+			ship.appendChild(document.createTextNode(key + " ("+ boatsLeft[key]+" units)"));
 			ship.className = "ship";
 			ship.id = key.replace(" ","_");
 			list.appendChild(ship);
@@ -95,17 +95,18 @@ var BoardCtrl = function(view, model) {
 	this.update = function() {
 		this.generateShipList();
 
+		// Print setup grid or game grid
 		if (!model.gameStarted){
 			this.printArray(model.currentPlayer.grid);
 			view.scoreTable.hide();
 		} else {
-			//console.log(model.player1);
 			this.printArray(model.currentPlayer.guesses);
 			view.scoreTable.show();
 			this.printScores();
 			view.rotation.hide();
 		}
 
+		// Sea buttons clickable (only one time, for one guess)
 		if (!model.guessMade) {
 			$(".sea" ).click(function() {
 				//console.log(this.id);
@@ -115,17 +116,21 @@ var BoardCtrl = function(view, model) {
 				var y = parseInt(id[1]);
 
 				if (!model.gameStarted) {
-					model.addBoat(x, y, _this.selectedShip, _this.selectedRotation);
+					if (_this.selectedShip !== null) {
+						model.addBoat(x, y, _this.selectedShip, _this.selectedRotation);
+					}
 				} else {
 					model.guess(x, y);
 				}
 			});
 		}
 
+		// Alerts
 		if (model.winner !== null) {
 			alert("You have won!");
 		}
 
+		// Logic for the Done button
 		if (!model.gameStarted && model.player1.boats.length >= 1 && model.player2.boats.length >= 1){
 			// If all players have finished placing their boats
 			view.doneButton.show();
@@ -163,8 +168,10 @@ var BoardCtrl = function(view, model) {
 			view.doneButton.hide();
 		}
 
+		// Player numbeer
 		view.currentPlayer.html("Player " + model.currentPlayer.playerNumber);
 
+		// Ship selection during setup
 		$(".ship" ).click(function() {
 			_this.markSelectedShip(this.id);
 			
@@ -179,6 +186,15 @@ var BoardCtrl = function(view, model) {
 			model.removeBoat(x, y);
 			
 		});
+
+		if (this.selectedRotation === "h") {
+			view.rotation_h.addClass("underline");
+			view.rotation_v.removeClass("underline");
+		} else if (this.selectedRotation === "v") {
+			view.rotation_v.addClass("underline");
+			view.rotation_h.removeClass("underline");
+		}
+
 	}
 
 	this.markSelectedShip = function (id) {
@@ -192,22 +208,21 @@ var BoardCtrl = function(view, model) {
 	}
 
 	this.dbUnbind = function() {
+		// Remove the Done button's functionality immediately after it's clicked, to prevent mysterious multiple-reaction
 		view.doneButton.unbind().click(function() {});
 	}
 
 	this.update();
 
-	view.rotation.click( function() {
-		if(_this.selectedRotation === "v"){
-			_this.selectedRotation = "h";
-			$("#rotation").html("Rotation: Horizontal");
-		}else{
-			_this.selectedRotation = "v";
-			$("#rotation").html("Rotation: Vertical");
-		}	
-		console.log(_this.selectedRotation);
-
+	view.rotation_v.click(function() {
+		_this.selectedRotation = "v";
+		_this.update();
 	});
+
+	view.rotation_h.click(function() {
+		_this.selectedRotation = "h";
+		_this.update();
+	})
 
 
 	//Add observer

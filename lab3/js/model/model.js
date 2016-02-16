@@ -75,9 +75,25 @@ var BattleshipGame = function() {
 	}
 
 	this.addBoat = function(x, y, type, rotation){
-		//control if valid input
-		_this.currentPlayer.addBoat(x, y, type, rotation);
-		_this.notifyObservers();
+		if (!this.checkOverlap(x, y, boatTypes[type], rotation, _this.currentPlayer.grid)) {
+			_this.currentPlayer.addBoat(x, y, type, rotation);
+			_this.notifyObservers();
+		}
+	}
+
+	this.checkOverlap = function(x, y, length, rotation, grid) {
+		// Returns true if the inputted data overlaps something in the inputted grid
+		if (rotation === "h") {
+			for (var i = x; i < x+length; i ++) {
+				if (grid[y][i] !== undefined) return true;
+			}
+		} else if (rotation === "v") {
+			for (var j = y; j < y+length; j ++) {
+				if (grid[j][x] !== undefined) return true;
+			}
+		}
+
+		return false;
 	}
 
 	this.removeBoat = function(x, y){

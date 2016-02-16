@@ -5,5 +5,6 @@ var BoardView = function(container) {
 	this.doneButton = container.find("#done");
 	this.ships = container.find("#ships");
 	this.scoreTable = container.find("#scoretable");
-	this.rotation = container.find("#rotation");
+	this.rotation_v = container.find("#rotation_v");
+	this.rotation_h = container.find("#rotation_h");
  }

@@ -1,37 +1,53 @@
-.sea{
-	 padding-top:7%;
-	 width:7%;
+.sea {
+	 padding-top: 7%;
+	 width: 7%;
 	 border-radius: 10px;
 	 border-color: grey;
 	 background-color: #477F7E;
 	 float: left;
 }
-.clickable:hover{
+
+.clickable:hover {
 	background-color: #8EFFFB;
 }
-.hit{
-	 padding-top:7%;
-	 width:7%;
+
+.hit {
+	 padding-top: 7%;
+	 width: 7%;
 	 border-radius: 10px;
 	 border-color: grey;
 	 background-color: red;
 	 float: left;
 }
-.empty{
-	padding-top:7%;
-	width:7%;
+
+.empty {
+	padding-top: 7%;
+	width: 7%;
 	border-radius: 10px;
 	border-color: grey;
 	background-color: #8EFFFB;
 	float: left;
 
 }
-.boat{
-	padding-top:7%;
-	width:7%;
+
+.boat {
+	padding-top: 7%;
+	width: 7%;
 	border-radius: 10px;
 	border-color: grey;
 	background-color: green;
 	float: left;
 
+}
+
+.ship {
+	cursor: pointer;
+}
+
+.rotation {
+	cursor: pointer;
+}
+
+.underline {
+	text-decoration: underline;
 }
