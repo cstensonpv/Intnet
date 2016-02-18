@@ -149,6 +149,8 @@ var BoardCtrl = function(view, model) {
 			view.doneButton.click(function() {
 				model.switchPlayer();
 				_this.dbUnbind();
+				view.message.html("");
+				model.message = "";
 			});
 			view.doneButton.html("Done – Give the turn to player " + model.otherPlayer().playerNumber);
 		} else if (model.gameStarted && (model.winner !== null)) {
